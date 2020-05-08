@@ -1,6 +1,9 @@
 package no.tytraman.newguilds.guilds;
 
 import com.sun.istack.internal.NotNull;
+import no.tytraman.newguilds.NewGuilds;
+import no.tytraman.newguilds.threads.Amy;
+import no.tytraman.newguilds.threads.Sonic;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -36,7 +39,7 @@ public class Guild {
             Pattern p = Pattern.compile("\\W\\.-");
             Matcher m = p.matcher(guildName);
             if(!m.find()) {
-                if(guildName.length() >= Main.INSTANCE.getConfig().getInt("guilds.min-length-name") && guildName.length() <= Main.INSTANCE.getConfig().getInt("guilds.max-length-name")) {
+                if(guildName.length() >= NewGuilds.INSTANCE.getConfig().getInt("guilds.min-length-name") && guildName.length() <= NewGuilds.INSTANCE.getConfig().getInt("guilds.max-length-name")) {
                     guildFile = new File(getGuildPath() + "g." + guildName.toLowerCase() + ".yml");
                     guildYml = YamlConfiguration.loadConfiguration(guildFile);
                     if(!guildFile.exists()) {
@@ -54,15 +57,15 @@ public class Guild {
                         saveGuildData();
                         updatePlayerData(true, false, guildName);
                         savePlayerData();
-                        sendMessageToPlayer(ChatColor.AQUA + "La guilde \"" + guildName + "\" a bien été créé.");
+                        sendMessageToPlayer(getPrefix() + ChatColor.AQUA + "La guilde \"" + guildName + "\" a bien été créé.");
                     }else
-                        sendMessageToPlayer(ChatColor.RED + "La guilde \"" + guildName + "\" existe déjà.");
+                        sendMessageToPlayer(getPrefix() + ChatColor.RED + "La guilde \"" + guildName + "\" existe déjà.");
                 }else
-                    sendMessageToPlayer(ChatColor.RED + "Le nom de la guilde doit avoir entre " + Main.INSTANCE.getConfig().getInt("guilds.min-length-name") + " et " + Main.INSTANCE.getConfig().getInt("guilds.max-length-name") + " caractères.");
+                    sendMessageToPlayer(getPrefix() + ChatColor.RED + "Le nom de la guilde doit avoir entre " + NewGuilds.INSTANCE.getConfig().getInt("guilds.min-length-name") + " et " + NewGuilds.INSTANCE.getConfig().getInt("guilds.max-length-name") + " caractères.");
             }else
-                sendMessageToPlayer(ChatColor.RED + "Le nom de la guilde contient des caractères non autorisés.");
+                sendMessageToPlayer(getPrefix() + ChatColor.RED + "Le nom de la guilde contient des caractères non autorisés.");
         }else
-            sendMessageToPlayer(ChatColor.RED + "Tu es déjà dans une guilde.");
+            sendMessageToPlayer(getPrefix() + ChatColor.RED + "Tu es déjà dans une guilde.");
     }
 
     public void leaveGuild() {
@@ -71,8 +74,8 @@ public class Guild {
             saveGuildData();
             updatePlayerData(false, false, "");
             savePlayerData();
-            sendMessageToPlayer(ChatColor.BLUE + "Tu as quitté la guilde \"" + getGuildName() + "\".");
-            new Sonic("Sonic", this, ChatColor.RED, uuid, "vient de quitter la guilde.").start();
+            sendMessageToPlayer(getPrefix() + ChatColor.BLUE + "Tu as quitté la guilde \"" + getGuildName() + "\".");
+            new Sonic("Sonic", this, uuid, "{player} vient de quitter la guilde.").start();
             if(getNumberOfMembers() > 0) {
                 if(isPlayerTheChef()) {
                     List joiningTime = new ArrayList();
@@ -83,14 +86,14 @@ public class Guild {
                     String tempUuid = Things.convertSetToList(getMembersList()).get(indexOfNewOwner);
                     setNewOwner(tempUuid);
                     saveGuildData();
-                    new Sonic("Sonic", this, ChatColor.GREEN, tempUuid, "est devenu le chef de guilde.").start();
+                    new Sonic("Sonic", this, tempUuid, "{player} est devenu le chef de guilde.").start();
                 }
             }else {
                 setNewOwner("555-2368");
                 saveGuildData();
             }
         }else
-            sendMessageToPlayer(ChatColor.RED + "Tu dois être dans une guilde pour pouvoir la quitter.");
+            sendMessageToPlayer(getPrefix() + ChatColor.RED + "Tu dois être dans une guilde pour pouvoir la quitter.");
     }
 
     public void setNewOwner(String uuid) {
@@ -107,9 +110,9 @@ public class Guild {
             if(isPlayerTheChef()) {
                 new Amy("Amy", this, playerUsername).start();
             }else
-                sendMessageToPlayer(ChatColor.RED + "Seul le chef est autorisé à faire ça.");
+                sendMessageToPlayer(getPrefix() + ChatColor.RED + "Seul le chef est autorisé à faire ça.");
         }else
-            sendMessageToPlayer(ChatColor.RED + "Tu dois être le chef d'une guilde pour pouvoir faire ça.");
+            sendMessageToPlayer(getPrefix() + ChatColor.RED + "Tu dois être le chef d'une guilde pour pouvoir faire ça.");
     }
 
     public void request(String guildName) {
@@ -119,7 +122,7 @@ public class Guild {
             if(guildFile.exists()) {
                 try {
                     if(playerYml.getConfigurationSection("requested-to").getKeys(false).contains(guildName.toLowerCase())) {
-                        sendMessageToPlayer(ChatColor.RED + "Tu as déjà envoyé une requête à cette guilde.");
+                        sendMessageToPlayer(getPrefix() + ChatColor.RED + "Tu as déjà envoyé une requête à cette guilde.");
                         return;
                     }
                 }catch(NullPointerException e) {}
@@ -128,12 +131,12 @@ public class Guild {
                 saveGuildData();
                 playerYml.set("requested-to." + guildName.toLowerCase() + ".time-of-request", now);
                 savePlayerData();
-                sendMessageToPlayer(ChatColor.BLUE + "Tu as envoyé une requête à la guilde \"" + guildName + "\", attends que le chef accepte.");
-                new Sonic("Sonic", this, ChatColor.AQUA, uuid, "demande à rejoindre la guilde.").start();
+                sendMessageToPlayer(getPrefix() + ChatColor.BLUE + "Tu as envoyé une requête à la guilde \"" + guildName + "\", attends que le chef accepte.");
+                new Sonic("Sonic", this, uuid, "{player} demande à rejoindre la guilde.").start();
             }else
-                sendMessageToPlayer(ChatColor.RED + "La guilde \"" + guildName + "\" n'existe pas.");
+                sendMessageToPlayer(getPrefix() + ChatColor.RED + "La guilde \"" + guildName + "\" n'existe pas.");
         }else
-            sendMessageToPlayer(ChatColor.RED + "Tu es déjà dans une guilde.");
+            sendMessageToPlayer(getPrefix() + ChatColor.RED + "Tu es déjà dans une guilde.");
     }
 
     public void removeRequest(String uuid) {
@@ -197,20 +200,6 @@ public class Guild {
             return false;
     }
 
-    private boolean isPlayerTheChef() {
-        return uuid.equalsIgnoreCase(guildYml.getString("infos.owner"));
-    }
-
-    //Uniquement pour la création d'une nouvelle guilde, pour éviter les noms réservés aux os
-    private boolean createNewGuildFile() {
-        try {
-            guildYml.save(guildFile);
-            return true;
-        }catch(IOException e) {
-            return false;
-        }
-    }
-
     private void defaultPlayer() {
         playerYml.addDefault("owner", false);
         playerYml.addDefault("member", false);
@@ -219,18 +208,24 @@ public class Guild {
         playerYml.options().copyDefaults(true);
     }
 
+    public boolean isPlayerTheChef() {
+        return uuid.equalsIgnoreCase(guildYml.getString("infos.owner"));
+    }
+
+    public boolean isTheUuidInMembersList(String uuid) {
+        return getMembersList().contains(uuid);
+    }
+
     // -------------Getters-------------
     private String getPlayerPath() {
-        return Main.INSTANCE.getDataFolder() + "/guilds/playersdata/";
+        return NewGuilds.INSTANCE.getDataFolder() + "/guilds/playersdata/";
     }
 
     private String getGuildPath() {
-        return Main.INSTANCE.getDataFolder() + "/guilds/guildsdata/";
+        return NewGuilds.INSTANCE.getDataFolder() + "/guilds/guildsdata/";
     }
 
-
-    public String getGuildName() {
-        return guildYml.getString("infos.name");
+    public String getGuildName() { return guildYml.getString("infos.name");
     }
 
     public String getGuildCreator() {
@@ -273,4 +268,11 @@ public class Guild {
         return guildYml.getConfigurationSection("members").getKeys(false);
     }
 
+    public String getPrefix() {
+        return NewGuilds.INSTANCE.getConfig().getString("infos.plugin-prefix");
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
 }

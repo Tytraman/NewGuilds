@@ -1,0 +1,12 @@
+###################################################################################################
+# You can change the values as you want but be careful, some of them can make text display weird, #
+# to prevent you, I will put a /warning\ above settings that require attention                    #
+###################################################################################################
+infos:
+  plugin-prefix: "§7[§d#§7] "
+
+guilds:
+  min-length-name: 3
+  # /warning\
+  max-length-name: 15
+  max-members: 10
