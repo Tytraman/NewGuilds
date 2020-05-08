@@ -1,0 +1,4 @@
+name: NewGuilds
+version: ${project.version}
+main: no.tytraman.newguilds.NewGuilds
+api-version: 1.13
