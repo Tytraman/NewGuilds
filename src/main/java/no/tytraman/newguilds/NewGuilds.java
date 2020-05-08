@@ -6,7 +6,6 @@ public final class NewGuilds extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
-
+        getCommand("guild").setExecutor(new CommandsManager());
     }
 }
