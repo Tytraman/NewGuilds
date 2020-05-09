@@ -1,14 +1,14 @@
 package no.tytraman.newguilds.guilds;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Things {
 
@@ -41,6 +41,14 @@ public class Things {
         return list;
     }
 
+    public static ItemStack createItemForGui(Material material, String customName, String[] lore) {
+        ItemStack item = new ItemStack(material);
+        ItemMeta itemMeta = item.getItemMeta();
+        itemMeta.setDisplayName(customName);
+        itemMeta.setLore(Arrays.asList(lore));
+        item.setItemMeta(itemMeta);
 
+        return item;
+    }
 
 }

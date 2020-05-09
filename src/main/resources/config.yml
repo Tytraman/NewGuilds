@@ -2,8 +2,24 @@
 # You can change the values as you want but be careful, some of them can make text display weird, #
 # to prevent you, I will put a /warning\ above settings that require attention                    #
 ###################################################################################################
+
+####################################################################
+# Never change the files values in the "guilds" folder             #
+# otherwise the plugin may no longer work, let it do the job alone #
+####################################################################
+
+####################################################
+# If you make any changes while server is running, #
+# don't forget to save and reload                  #
+####################################################
+
 infos:
   plugin-prefix: "§7[§d#§7] "
+
+chat:
+  # If you don't want the chat format "[guild] [displayname] message" that the plugin puts,
+  # you can set this to true to disable it
+  disable-format: false
 
 guilds:
   min-length-name: 3

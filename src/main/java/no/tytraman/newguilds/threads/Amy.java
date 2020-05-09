@@ -31,7 +31,7 @@ public class Amy extends Thread {
                 tempGuild.updatePlayerData(false, true, guild.getGuildName());
                 tempGuild.clearRequestedList();
                 tempGuild.savePlayerData();
-                guild.sendMessageToOnlineMembers(guild.getPrefix() + ChatColor.GREEN + gson.getUsernameFromUuid(uuid) + " a rejoint la guilde");
+                guild.sendMessageToOnlineMembers(guild.getPrefix() + ChatColor.GREEN + gson.getUsernameFromUuid(uuid) + " a rejoint la guilde.");
             }else
                 guild.sendMessageToPlayer(NewGuilds.INSTANCE.getConfig().getString("infos.plugin-prefix") + ChatColor.RED + "Ce joueur n'a pas envoyé de requête.");
         }else

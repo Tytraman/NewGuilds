@@ -18,6 +18,9 @@ public final class NewGuilds extends JavaPlugin {
 
         // Configuration des tabs completer
         getCommand("guild").setTabCompleter(new GuildPressTab());
+
+        // Configuration des events
+        getServer().getPluginManager().registerEvents(new EventsManager(), this);
     }
 
 

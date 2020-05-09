@@ -34,6 +34,18 @@ public class Guild {
         this.player = Bukkit.getPlayer(UUID.fromString(uuid));
     }
 
+    // En utilisant ce constructeur, certaines méthodes ne fonctionneront pas, il sert vraiment pour des cas précis, comme voir les autres guildes.
+    public Guild(String playerUuid, String guildName) {
+        this.uuid = playerUuid;
+        this.playerFile = new File(getPlayerPath() + uuid + ".yml");
+        this.playerYml = YamlConfiguration.loadConfiguration(playerFile);
+        defaultPlayer();
+        savePlayerData();
+        this.guildFile = new File(getGuildPath() + "g." + guildName.toLowerCase() + ".yml");
+        this.guildYml = YamlConfiguration.loadConfiguration(guildFile);
+        this.player = Bukkit.getPlayer(UUID.fromString(uuid));
+    }
+
     public void createNewGuild(String guildName) {
         if(!isPlayerInGuild()) {
             Pattern p = Pattern.compile("\\W\\.-");
@@ -68,6 +80,21 @@ public class Guild {
             sendMessageToPlayer(getPrefix() + ChatColor.RED + "Tu es déjà dans une guilde.");
     }
 
+    public void setDescription(String description) {
+        guildYml.set("infos.description", description);
+    }
+
+    public boolean setColor(String color) {
+        try {
+            ChatColor coloration = ChatColor.valueOf(color);
+            if(coloration.isColor()) {
+                guildYml.set("infos.color", coloration.toString());
+                return true;
+            }
+        }catch(IllegalArgumentException e) {}
+        return false;
+    }
+
     public void leaveGuild() {
         if(isPlayerInGuild()) {
             guildYml.set("members." + uuid, null);
@@ -75,7 +102,7 @@ public class Guild {
             updatePlayerData(false, false, "");
             savePlayerData();
             sendMessageToPlayer(getPrefix() + ChatColor.BLUE + "Tu as quitté la guilde \"" + getGuildName() + "\".");
-            new Sonic("Sonic", this, uuid, "{player} vient de quitter la guilde.").start();
+            new Sonic("Sonic", this, uuid,ChatColor.RED + "{player} vient de quitter la guilde.").start();
             if(getNumberOfMembers() > 0) {
                 if(isPlayerTheChef()) {
                     List joiningTime = new ArrayList();
@@ -86,7 +113,7 @@ public class Guild {
                     String tempUuid = Things.convertSetToList(getMembersList()).get(indexOfNewOwner);
                     setNewOwner(tempUuid);
                     saveGuildData();
-                    new Sonic("Sonic", this, tempUuid, "{player} est devenu le chef de guilde.").start();
+                    new Sonic("Sonic", this, tempUuid, ChatColor.AQUA + "{player} est devenu le chef de guilde.").start();
                 }
             }else {
                 setNewOwner("555-2368");
@@ -132,7 +159,7 @@ public class Guild {
                 playerYml.set("requested-to." + guildName.toLowerCase() + ".time-of-request", now);
                 savePlayerData();
                 sendMessageToPlayer(getPrefix() + ChatColor.BLUE + "Tu as envoyé une requête à la guilde \"" + guildName + "\", attends que le chef accepte.");
-                new Sonic("Sonic", this, uuid, "{player} demande à rejoindre la guilde.").start();
+                new Sonic("Sonic", this, uuid,  ChatColor.AQUA + "{player} demande à rejoindre la guilde.").start();
             }else
                 sendMessageToPlayer(getPrefix() + ChatColor.RED + "La guilde \"" + guildName + "\" n'existe pas.");
         }else
@@ -256,6 +283,10 @@ public class Guild {
         return guildYml.getInt("exp");
     }
 
+    public int getGuildExpRequired() {
+        return Things.getExpRequired(getGuildExp());
+    }
+
     public int getNumberOfMembers() {
         return guildYml.getConfigurationSection("members").getKeys(false).size();
     }
@@ -275,4 +306,12 @@ public class Guild {
     public Player getPlayer() {
         return player;
     }
+    public String getUuid() {
+        return uuid;
+    }
+
+    public File getGuildFile() {
+        return guildFile;
+    }
+
 }
