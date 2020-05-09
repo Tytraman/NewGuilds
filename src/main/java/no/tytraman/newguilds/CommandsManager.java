@@ -4,11 +4,14 @@ import no.tytraman.newguilds.guilds.Guild;
 import no.tytraman.newguilds.threads.Knuckles;
 import no.tytraman.newguilds.threads.Sonic;
 import no.tytraman.newguilds.threads.Tails;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.io.BukkitObjectInputStream;
 
 public class CommandsManager implements CommandExecutor {
     @Override
@@ -95,9 +98,62 @@ public class CommandsManager implements CommandExecutor {
                             p.sendMessage(guild.getPrefix() + ChatColor.RED + "Le nom de la guilde ne peut pas contenir d'espace.");
                         else
                             p.sendMessage(guild.getPrefix() + ChatColor.RED + "Indique le nom de la guilde.");
+                    //infodev
+                    }else if(args[0].equalsIgnoreCase("infodev")) {
+                        //TODO mettre à jour cette ligne
+                        NewGuilds.INSTANCE.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + p.getName() +
+                                " [\"\"," +
+                                "{\"text\":\"" + NewGuilds.INSTANCE.getDescription().getName() + "\",\"color\":\"light_purple\"}," +
+                                "{\"text\":\"| \",\"color\":\"gray\"}," +
+                                "{\"text\":\"Dev par \",\"color\":\"blue\"}," +
+                                "{\"text\":\"" + NewGuilds.INSTANCE.getDescription().getAuthors() + "\",\"color\":\"dark_purple\"}," +
+                                "{\"text\":\"\\n\"}," +
+                                "{\"text\":\"Version \",\"color\":\"yellow\"}," +
+                                "{\"text\":\"" + NewGuilds.INSTANCE.getDescription().getVersion() + "\",\"color\":\"gold\"}," +
+                                "{\"text\":\"\\n\"}," +
+                                "{\"text\":\"Lien \",\"color\":\"green\"}," +
+                                "{\"text\":\"Github\",\"italic\":true,\"underlined\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://github.com/Tytraman\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Clic ici !\"}}]");
+                    //tp
+                    }else if(args[0].equalsIgnoreCase("tp")) {
+                        if(guild.isPlayerInGuild()) {
+                            if(args.length > 1) {
+                                Player target = Bukkit.getPlayer(args[1]);
+                                if(target != null) {
+                                    if(target != p) {
+                                        if(guild.isTheUuidInMembersList(target.getUniqueId().toString())) {
+                                            if(p.teleport(target.getLocation())) {
+                                                p.sendMessage(guild.getPrefix() + ChatColor.AQUA + "Téléporté(e) vers " + target.getName() + ".");
+                                                target.sendMessage(guild.getPrefix() + ChatColor.AQUA + p.getName() + " s'est téléporté(e) sur toi.");
+                                            }else
+                                                p.sendMessage(guild.getPrefix() + ChatColor.RED + "Une erreur s'est produite.");
+                                        }else
+                                            p.sendMessage(guild.getPrefix() + ChatColor.RED + target.getName() + " n'est pas dans la guilde.");
+                                    }else
+                                        p.sendMessage(guild.getPrefix() + ChatColor.RED + "Tu ne peux pas te téléporter à toi-même.");
+                                }else
+                                    p.sendMessage(guild.getPrefix() + ChatColor.RED + "Le joueur ciblé n'est pas connecté.");
+                            }else
+                                p.sendMessage(guild.getPrefix() + ChatColor.RED + "Indique le pseudo du joueur.");
+                        }else
+                            p.sendMessage(guild.getPrefix() + ChatColor.RED + "Tu dois être dans une guilde pour pouvoir faire ça.");
+                    //msg
+                    }else if(args[0].equalsIgnoreCase("msg")) {
+                        if(args.length > 1) {
+                            if(guild.isPlayerInGuild()) {
+                                StringBuilder sg = new StringBuilder();
+                                for(int i = 1; i < args.length; i++) {
+                                    sg.append(args[i] + " ");
+                                }
+                                guild.sendMessageToOnlineMembers(guild.getPrefix() + ChatColor.GRAY + "[" + ChatColor.AQUA + "Guilde" + ChatColor.GRAY + "] " +
+                                        "[" + p.getDisplayName() + ChatColor.GRAY + "] " + ChatColor.AQUA + sg.toString().trim());
+                            }else
+                                p.sendMessage(guild.getPrefix() + ChatColor.RED + "Tu dois être dans une guilde pour pouvoir faire ça.");
+                        }else
+                            p.sendMessage(guild.getPrefix() + ChatColor.RED + "Ton message ne peut pas être vide.");
                     }else
                         p.sendMessage(guild.getPrefix() + ChatColor.RED + "Argument invalide.");
-                }else {
+                }
+                else {
                     if(guild.isPlayerInGuild())
                         new Knuckles("Knuckles", guild).start();
                     else
@@ -111,4 +167,5 @@ public class CommandsManager implements CommandExecutor {
 
         return false;
     }
+
 }

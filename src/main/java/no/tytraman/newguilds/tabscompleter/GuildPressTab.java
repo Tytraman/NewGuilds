@@ -14,12 +14,12 @@ public class GuildPressTab implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> list = new ArrayList<>();
         if(args.length == 1) {
-            for(String str : new String[]{"create", "accept", "leave", "join", "newchef", "setcolor", "setdescription", "show", "infodev"}) {
+            for(String str : new String[]{"create", "accept", "leave", "join", "newchef", "setcolor", "setdescription", "show", "infodev", "tp", "msg"}) {
                 if(str.startsWith(args[0]))
                     list.add(str);
             }
         }else if(args.length == 2) {
-            if(args[0].equalsIgnoreCase("accept") || args[0].equalsIgnoreCase("newchef")){
+            if(args[0].equalsIgnoreCase("accept") || args[0].equalsIgnoreCase("newchef") || args[0].equalsIgnoreCase("tp")){
                 return null;
             }else if(args[0].equalsIgnoreCase("setcolor")) {
                 for(ChatColor color : ChatColor.values()) {

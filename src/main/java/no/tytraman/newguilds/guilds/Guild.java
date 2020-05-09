@@ -6,6 +6,7 @@ import no.tytraman.newguilds.threads.Amy;
 import no.tytraman.newguilds.threads.Sonic;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -164,6 +165,14 @@ public class Guild {
                 sendMessageToPlayer(getPrefix() + ChatColor.RED + "La guilde \"" + guildName + "\" n'existe pas.");
         }else
             sendMessageToPlayer(getPrefix() + ChatColor.RED + "Tu es déjà dans une guilde.");
+    }
+
+    public boolean tpTo(Location location) {
+        if(player != null) {
+            player.teleport(location);
+            return true;
+        }
+        return false;
     }
 
     public void removeRequest(String uuid) {
