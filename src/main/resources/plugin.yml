@@ -8,6 +8,6 @@ commands:
   guild:
     description: "Command to manage guilds"
     permission: no.newguilds.guild
-    permission-message: "Sorry, but you can't do that"
+    permission-message: "Désolé, mais tu ne peux pas faire ça..."
     usage: "/guild"
 
