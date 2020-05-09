@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="NewGuilds:jar">
-    <output-path>$USER_HOME$/Documents/1. JveuxMesFichiers/serveur-mc/Serveur 1.15.2 prêt/plugins</output-path>
-    <root id="archive" name="NewGuilds.jar">
-      <element id="module-output" name="NewGuilds" />
-    </root>
-  </artifact>
-</component>
