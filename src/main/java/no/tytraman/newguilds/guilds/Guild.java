@@ -136,7 +136,10 @@ public class Guild {
     public void acceptMember(String playerUsername) {
         if(isPlayerInGuild()) {
             if(isPlayerTheChef()) {
-                new Amy("Amy", this, playerUsername).start();
+                if(getMembersList().size() < NewGuilds.INSTANCE.getConfig().getInt("guilds.max-members"))
+                    new Amy("Amy", this, playerUsername).start();
+                else
+                    sendMessageToPlayer(getPrefix() + ChatColor.RED + "La guilde ne peut pas acceuillir plus de joueurs.");
             }else
                 sendMessageToPlayer(getPrefix() + ChatColor.RED + "Seul le chef est autorisé à faire ça.");
         }else
