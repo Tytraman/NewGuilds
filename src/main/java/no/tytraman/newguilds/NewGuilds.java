@@ -7,7 +7,6 @@ public final class NewGuilds extends JavaPlugin {
 
     public static NewGuilds INSTANCE;
 
-
     @Override
     public void onEnable() {
         INSTANCE = this;
@@ -22,6 +21,4 @@ public final class NewGuilds extends JavaPlugin {
         // Configuration des events
         getServer().getPluginManager().registerEvents(new EventsManager(), this);
     }
-
-
 }
