@@ -26,3 +26,13 @@ guilds:
   # /warning\
   max-length-name: 15
   max-members: 10
+  exp:
+    # You can change the amount of exp gained from events
+    kill-player: 5
+    kill-mob: 3
+  pvp:
+    # When a player kills a player from another guild, their will be a lighting effect on the dead player,
+    # you can disable it by set this to false
+    lightning-effect: true
+    # Set this to false if you don't want the special kill message
+    kill-message: true

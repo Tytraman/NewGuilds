@@ -22,6 +22,11 @@ public class Things {
         return exp;
     }
 
+    public static int getExpPrecedentLevel(int level) {
+        int exp = (int)Math.pow((level - 1) / 0.2, 2);
+        return exp;
+    }
+
     public static String getLisibleTimeFromMillis(long millis) {
         Instant instant = Instant.ofEpochMilli(millis);
         LocalDateTime date = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();

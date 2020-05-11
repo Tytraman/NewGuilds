@@ -128,7 +128,6 @@ public class Guild {
         guildYml.set("infos.owner", uuid);
     }
 
-
     public boolean setHome(Location loc) {
         try {
             guildYml.set("home.world", loc.getWorld().getName());
@@ -207,8 +206,12 @@ public class Guild {
         }
     }
 
-    public void addExp(int value) {
+    private void addExp(int value) {
         guildYml.set("exp", getGuildExp() + value);
+    }
+
+    private void reduceExp(int value) {
+        guildYml.set("exp", getGuildExp() - value);
     }
 
     public void updatePlayerData(boolean owner, boolean member, @NotNull String guildName) {
@@ -257,6 +260,25 @@ public class Guild {
             return true;
         else
             return false;
+    }
+
+    public enum ExpType {
+        ADD, REDUCE
+    }
+
+    public void expManager(ExpType type, int value) {
+        int level = getGuildLevel();
+        int requiredExp = getGuildExpRequired();
+        int precedentExp = getGuildExpPrecedentLevel();
+        if(type == ExpType.ADD)
+            addExp(value);
+        else if(type == ExpType.REDUCE)
+            reduceExp(value);
+        if(getGuildExp() >= requiredExp) {
+            sendMessageToOnlineMembers(getPrefix() + ChatColor.AQUA + "La guilde vient d'augmenter de niveaux: " + ChatColor.GREEN + level + "->" + getGuildLevel());
+        }else if(getGuildExp() < precedentExp && getGuildLevel() != 0) {
+            sendMessageToOnlineMembers(getPrefix() + ChatColor.AQUA + "La guilde vient de baisser de niveaux: " + ChatColor.RED + level + "->" + getGuildLevel());
+        }
     }
 
     private void defaultPlayer() {
@@ -317,6 +339,10 @@ public class Guild {
 
     public int getGuildExpRequired() {
         return Things.getExpRequired(getGuildLevel());
+    }
+
+    public int getGuildExpPrecedentLevel() {
+        return Things.getExpPrecedentLevel(getGuildLevel());
     }
 
     public int getGuildLevel () {
