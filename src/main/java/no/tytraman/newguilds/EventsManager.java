@@ -47,9 +47,14 @@ public class EventsManager implements Listener {
         if(killerP != null) {
             Guild guild = new Guild(killerP.getUniqueId().toString());
             if(guild.isPlayerInGuild()) {
+                int level = guild.getGuildLevel();
+                int requiredExp = guild.getGuildExpRequired();
                 int exp = 5;
                 guild.addExp(exp);
                 guild.saveGuildData();
+                if(guild.getGuildExp() >= requiredExp) {
+                    guild.sendMessageToOnlineMembers(guild.getPrefix() + ChatColor.AQUA + "La guilde vient d'augmenter de niveaux: " + ChatColor.GREEN + level + "->" + guild.getGuildLevel());
+                }
                 killerP.sendMessage(guild.getPrefix() + ChatColor.AQUA + "Guilde: " + ChatColor.GREEN + "+" + exp + " exp");
             }
         }

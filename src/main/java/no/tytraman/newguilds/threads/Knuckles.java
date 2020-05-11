@@ -38,7 +38,7 @@ public class Knuckles extends Thread {
                             ChatColor.WHITE + "Description: " + ChatColor.GRAY + guild.getGuildDescription(),
                             ChatColor.WHITE + "Chef: " + ChatColor.GRAY + ownerName,
                             ChatColor.WHITE + "Membres: " + ChatColor.GRAY + guild.getNumberOfMembers() + "/" + NewGuilds.INSTANCE.getConfig().getInt("guilds.max-members"),
-                            ChatColor.WHITE + "Niveau: " + ChatColor.GRAY + Things.convertExpToLevel(guild.getGuildExp()),
+                            ChatColor.WHITE + "Niveau: " + ChatColor.GRAY + guild.getGuildLevel(),
                             ChatColor.WHITE + "Exp: " + ChatColor.GRAY + guild.getGuildExp() + "/" + guild.getGuildExpRequired(),
                             ChatColor.WHITE + "Date de création: " + ChatColor.GRAY + Things.getLisibleTimeFromMillis(guild.getGuildCreationTime())
                     }));

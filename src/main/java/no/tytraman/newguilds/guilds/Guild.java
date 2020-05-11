@@ -316,7 +316,11 @@ public class Guild {
     }
 
     public int getGuildExpRequired() {
-        return Things.getExpRequired(getGuildExp());
+        return Things.getExpRequired(getGuildLevel());
+    }
+
+    public int getGuildLevel () {
+        return Things.convertExpToLevel(getGuildExp());
     }
 
     public int getNumberOfMembers() {
