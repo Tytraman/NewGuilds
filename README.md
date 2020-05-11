@@ -27,5 +27,9 @@ All commands start with : /guild
   * Tp to a member of your guild.
 * `/guild msg <message...>`
   * Send a message to all members of your guild.
+* `/guild sethome`
+  * Create a home for the guild
+* `/guild home`
+  * Teleport to the home's guild
 * `/guild infodev`
   * Show info about the plugin.
