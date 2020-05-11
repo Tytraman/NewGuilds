@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.InventoryView;
@@ -28,12 +29,29 @@ public class EventsManager implements Listener {
         }
     }
 
+    // InventoryClickEvent
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         InventoryView inv = e.getView();
         Player p = (Player)e.getWhoClicked();
         if(inv.getTitle().startsWith(ChatColor.WHITE + "Guilde: ")) {
             e.setCancelled(true);
+        }
+    }
+
+    // PlayerDeathEvent
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent e) {
+        Player deadP = e.getEntity();
+        Player killerP = deadP.getKiller();
+        if(killerP != null) {
+            Guild guild = new Guild(killerP.getUniqueId().toString());
+            if(guild.isPlayerInGuild()) {
+                int exp = 5;
+                guild.addExp(exp);
+                guild.saveGuildData();
+                killerP.sendMessage(guild.getPrefix() + ChatColor.AQUA + "Guilde: " + ChatColor.GREEN + "+" + exp + " exp");
+            }
         }
     }
 }

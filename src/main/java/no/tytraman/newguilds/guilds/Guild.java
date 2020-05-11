@@ -207,6 +207,10 @@ public class Guild {
         }
     }
 
+    public void addExp(int value) {
+        guildYml.set("exp", getGuildExp() + value);
+    }
+
     public void updatePlayerData(boolean owner, boolean member, @NotNull String guildName) {
         playerYml.set("owner", owner);
         playerYml.set("member", member);
