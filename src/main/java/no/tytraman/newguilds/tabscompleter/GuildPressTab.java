@@ -14,7 +14,7 @@ public class GuildPressTab implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> list = new ArrayList<>();
         if(args.length == 1) {
-            for(String str : new String[]{"create", "accept", "leave", "join", "newchef", "setcolor", "setdescription", "show", "infodev", "tp", "msg"}) {
+            for(String str : new String[]{"create", "accept", "leave", "join", "newchef", "setcolor", "setdescription", "show", "infodev", "tp", "msg", "sethome", "home"}) {
                 if(str.startsWith(args[0]))
                     list.add(str);
             }

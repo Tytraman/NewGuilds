@@ -128,6 +128,22 @@ public class Guild {
         guildYml.set("infos.owner", uuid);
     }
 
+
+    public boolean setHome(Location loc) {
+        try {
+            guildYml.set("home.world", loc.getWorld().getName());
+            guildYml.set("home.x", loc.getX());
+            guildYml.set("home.y", loc.getY());
+            guildYml.set("home.z", loc.getZ());
+            guildYml.set("home.yaw", loc.getYaw());
+            guildYml.set("home.pitch", loc.getPitch());
+            return true;
+        }catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public void addMember(String uuid) {
         guildYml.set("members." + uuid + ".infos.joining-time", new Date().getTime());
         guildYml.set("members." + uuid + ".points", 0);
@@ -326,4 +342,13 @@ public class Guild {
         return guildFile;
     }
 
+    public Location getGuildHome() {
+        Location loc = new Location(Bukkit.getWorld(guildYml.getString("home.world")),
+                guildYml.getDouble("home.x"),
+                guildYml.getDouble("home.y"),
+                guildYml.getDouble("home.z"),
+                Float.parseFloat(guildYml.getString("home.yaw")),
+                Float.parseFloat(guildYml.getString("home.pitch")));
+        return loc;
+    }
 }

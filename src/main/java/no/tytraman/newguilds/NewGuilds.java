@@ -3,6 +3,7 @@ package no.tytraman.newguilds;
 import no.tytraman.newguilds.tabscompleter.GuildPressTab;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 public final class NewGuilds extends JavaPlugin {
 
     public static NewGuilds INSTANCE;

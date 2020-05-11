@@ -110,7 +110,7 @@ public class CommandsManager implements CommandExecutor {
                                 "{\"text\":\"" + NewGuilds.INSTANCE.getDescription().getVersion() + "\",\"color\":\"gold\"}," +
                                 "{\"text\":\"\\n\"}," +
                                 "{\"text\":\"Lien \",\"color\":\"green\"}," +
-                                "{\"text\":\"Github\",\"italic\":true,\"underlined\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://github.com/Tytraman\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Clic ici !\"}}]");
+                                "{\"text\":\"Github\",\"italic\":true,\"underlined\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://github.com/Tytraman/NewGuilds\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Clic ici !\"}}]");
                     //tp
                     }else if(args[0].equalsIgnoreCase("tp")) {
                         if(guild.isPlayerInGuild()) {
@@ -148,6 +148,31 @@ public class CommandsManager implements CommandExecutor {
                                 p.sendMessage(guild.getPrefix() + ChatColor.RED + "Tu dois être dans une guilde pour pouvoir faire ça.");
                         }else
                             p.sendMessage(guild.getPrefix() + ChatColor.RED + "Ton message ne peut pas être vide.");
+                    //sethome
+                    }else if(args[0].equalsIgnoreCase("sethome")) {
+                        if(guild.isPlayerInGuild()) {
+                            if(guild.isPlayerTheChef()) {
+                                if(guild.setHome(p.getLocation())) {
+                                    guild.saveGuildData();
+                                    new Sonic("Sonic", guild, p.getUniqueId().toString(), ChatColor.AQUA + "{player} a mis à jour le home de la guilde.").start();
+                                }else
+                                    p.sendMessage(guild.getPrefix() + ChatColor.RED + "Une erreur est survenue.");
+                            }else
+                                p.sendMessage(guild.getPrefix() + ChatColor.RED + "Seul le chef est autorisé à faire ça.");
+                        }else
+                            p.sendMessage(guild.getPrefix() + ChatColor.RED + "Tu dois être le chef d'une guilde pour pouvoir faire ça.");
+                    }else if(args[0].equalsIgnoreCase("home")) {
+                        if(guild.isPlayerInGuild()) {
+                            try {
+                                if(guild.tpTo(guild.getGuildHome()))
+                                    p.sendMessage(guild.getPrefix() + ChatColor.BLUE + "Téléporté(e) au home de la guilde.");
+                                else
+                                    p.sendMessage(guild.getPrefix() + ChatColor.RED + "Une erreur est survenue.");
+                            }catch(IllegalArgumentException e) {
+                                p.sendMessage(guild.getPrefix() + ChatColor.RED + "La guilde ne possède pas de home.");
+                            }
+                        }else
+                            p.sendMessage(guild.getPrefix() + ChatColor.RED + "Tu dois être dans une guilde pour pouvoir faire ça.");
                     }else
                         p.sendMessage(guild.getPrefix() + ChatColor.RED + "Argument invalide.");
                 }
@@ -157,12 +182,10 @@ public class CommandsManager implements CommandExecutor {
                     else
                         p.sendMessage(guild.getPrefix() + ChatColor.RED + "Tu dois être dans une guilde pour pouvoir faire ça.");
                 }
-
                 return true;
             }
         }else
             sender.sendMessage(NewGuilds.INSTANCE.getConfig().getString("infos.plugin-prefix") + ChatColor.RESET + "Seul un joueur peut exécuter cette commande");
-
         return false;
     }
 
