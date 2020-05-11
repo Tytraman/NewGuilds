@@ -161,6 +161,7 @@ public class CommandsManager implements CommandExecutor {
                                 p.sendMessage(guild.getPrefix() + ChatColor.RED + "Seul le chef est autorisé à faire ça.");
                         }else
                             p.sendMessage(guild.getPrefix() + ChatColor.RED + "Tu dois être le chef d'une guilde pour pouvoir faire ça.");
+                    //home
                     }else if(args[0].equalsIgnoreCase("home")) {
                         if(guild.isPlayerInGuild()) {
                             try {
