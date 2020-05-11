@@ -16,7 +16,7 @@ All commands start with : /guild
 * `/guild leave`
   * Leave your guild.
 * `/guild newchef <username>`
-  * Set a new chef.
+  * Set a new chief.
 * `/guild setcolor <color name>`
   * Set the color of your guild.
 * `/guild setdescription <description...>`
