@@ -1,35 +1,34 @@
 # NewGuilds
-#### Made on Minecraft 1.15.2
-Put the .jar in your plugins folder and reload, you can change the config.yml but the default settings are fine.
-<br>Just give this permission to players and there you go : no.newguilds.guild
+#### Fait sur Minecraft 1.15.2
+Faut juste mettre le .jar dans le dossier plugins et c'est tout.<br>
+Les joueurs ont besoin de cette permission pour utiliser les commandes : no.newguilds.guild
 
-##### Commands :
-All commands start with : /guild
+##### Commandes :
 * `/guild`
-  * Show a GUI of your guild.
+  * Montrer une interface pour de la guilde du joueur.
 * `/guild create <guild name>`
-  * Create a guild with the given name.
+  * Créer une guilde avec le nom indiqué.
 * `/guild join <guild name>`
-  * Ask the guild to join her.
+  * Envoyer une demande pour rejoindre une guilde.
 * `/guild accept <username>`
-  * Accept a member who asks to join your guild.
+  * Accepter une demande pour rejoindre la guilde.
 * `/guild leave`
-  * Leave your guild.
+  * Quitter la guilde.
 * `/guild newchef <username>`
-  * Set a new chief.
+  * Définir un nouveau chef de guilde.
 * `/guild setcolor <color name>`
-  * Set the color of your guild.
+  * Changer la couleur de la guilde.
 * `/guild setdescription <description...>`
-  * Set a description of your guild.
+  * Changer la description de la guilde.
 * `/guild show <guild name>`
-  * Show a GUI of the guild with the given name.
+  * Montrer une interface de la guilde indiquée.
 * `/guild tp <username>`
-  * Tp to a member of your guild.
+  * Se tp à un membre de la guilde.
 * `/guild msg <message...>`
-  * Send a message to all members of your guild.
+  * Envoyer un message à la guilde.
 * `/guild sethome`
-  * Create a home for the guild
+  * Définir un home pour la guilde.
 * `/guild home`
-  * Teleport to the home's guild
+  * Se tp au home de la guilde.
 * `/guild infodev`
-  * Show info about the plugin.
+  * Montrer des infos sur le plugin.
